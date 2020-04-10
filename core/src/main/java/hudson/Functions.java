@@ -204,6 +204,10 @@ public class Functions {
         return o != null && o.getClass().getName().equals("hudson.matrix.MatrixProject");
     }
 
+    public static boolean isAbstractBuild(Object o){
+        return o instanceof hudson.model.AbstractBuild;
+    }
+
     public static String xsDate(Calendar cal) {
         return Util.XS_DATETIME_FORMATTER.format(cal.getTime());
     }
