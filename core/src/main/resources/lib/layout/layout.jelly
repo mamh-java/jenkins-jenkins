@@ -233,7 +233,9 @@ THE SOFTWARE.
 
           <j:if test="${extensionsAvailable}">
             <j:forEach var="pd" items="${h.pageDecorators}">
+              <div class="page-footer__links ${pd}">
               <st:include it="${pd}" page="footer.jelly" optional="true" />
+            </div>
             </j:forEach>
           </j:if>
 
