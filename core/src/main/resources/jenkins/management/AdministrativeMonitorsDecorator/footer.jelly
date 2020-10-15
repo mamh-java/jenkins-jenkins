@@ -25,7 +25,7 @@ THE SOFTWARE.
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
     <j:if test="${it.shouldDisplay()}">
         <st:adjunct includes="jenkins.management.AdministrativeMonitorsDecorator.resources"/>
-        <div id="visible-am-container">
+        <div class="page-footer__links adminmonitor" id="visible-am-container">
             <a id="visible-am-button" href="#" onclick="toggleVisibleAmList(event)" title="${%tooltip(it.activeAdministrativeMonitorsCount)}">
                 <l:svgIcon href="${resURL}/images/material-icons/svg-sprite-social-symbol.svg#ic_notifications_24px" />
                 <span class="am-monitor__count">
@@ -42,7 +42,6 @@ THE SOFTWARE.
                     <a href="${rootURL}/manage" onclick="document.location.href='${rootURL}/manage';">${%Manage Jenkins}</a>
                 </p>
             </div>
-        </div>
         <script type="text/javascript">
             (function() {
                 var amContainer = document.getElementById("visible-am-container");
@@ -53,5 +52,6 @@ THE SOFTWARE.
                 }
             })();
         </script>
+        </div>
     </j:if>
 </j:jelly>
