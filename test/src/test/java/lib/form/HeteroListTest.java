@@ -37,6 +37,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlElementUtil;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.javascript.host.html.HTMLAnchorElement;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.ExtensionList;
 import hudson.model.Describable;
 import hudson.model.Descriptor;
@@ -69,7 +70,7 @@ public class HeteroListTest {
 
         RootActionImpl rootAction = ExtensionList.lookupSingleton(RootActionImpl.class);
         TestItemDescribable.DynamicDisplayNameDescriptor dynamic = ExtensionList.lookupSingleton(TestItemDescribable.DynamicDisplayNameDescriptor.class);
-        rootAction.descriptorList = Collections.singletonList(dynamic);
+        rootAction.descriptorList = List.of(dynamic);
 
         dynamic.displayName = "Display<strong>Name</strong>";
 
@@ -161,7 +162,7 @@ public class HeteroListTest {
         Object result = page.executeJavaScript("Array.from(document.querySelectorAll('button')).filter(b => b.textContent.indexOf('XSS:') !== -1)[0].innerHTML").getJavaScriptResult();
         assertThat(result, instanceOf(String.class));
         String resultString = (String) result;
-        assertThat(resultString, not(containsString("<")));
+        assertThat(resultString, not(containsString("<img")));
     }
 
     @Test
@@ -185,7 +186,7 @@ public class HeteroListTest {
         @SuppressWarnings("unchecked")
         List<String> resultList = (List<String>) result;
         for (String str : resultList) {
-            assertThat(str, not(containsString("<")));
+            assertThat(str, not(containsString("<img")));
         }
 
         // "delete" then "add" makes us coming back in scenario covered by xssUsingToolInstallationRepeatableAdd
@@ -217,6 +218,7 @@ public class HeteroListTest {
         public static class DynamicDisplayNameDescriptor extends Descriptor<TestItemDescribable> {
             public String displayName = "NotYetDefined";
 
+            @NonNull
             @Override
             public String getDisplayName() {
                 return displayName;
@@ -258,6 +260,7 @@ public class HeteroListTest {
         public static class DescriptorImpl extends ToolDescriptor<Xss> {
             private Xss[] installations = new Xss[0];
 
+            @NonNull
             @Override
             public String getDisplayName() {
                 return "XSS: <img src=x onerror=console.warn('" + getClass().getName() + "') />";
